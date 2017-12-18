@@ -1,0 +1,46 @@
+{
+
+	"Directories" 	: ["puppet", "Docker", "content" ],
+	"Description"	: "Directories to look for files and content",
+
+	"modules"		:	[
+		{
+			"Description"	: "Puppet site configuration file",
+			"home_dir"	: "default",
+			"source_dir"	: "puppet/manifests",
+			"module"	: "site",
+			"fname"		: "site.pp",
+			"type"		: "manifests",
+			"destination"	: "/etc/puppet"
+		},
+		{
+			"Description"	: "Puppet deploy docker module configuration information",
+			"home_dir"	: "my_docker",
+			"source_dir"	: "puppet/modules",
+			"module"	: "my_docker",
+			"fname"		: "init.pp",
+			"type"		: "modules",
+			"destination"	: "/etc/puppet"
+		},
+		{
+			"Description"	: "Puppet deploy apache module configuration information",
+			"home_dir"	: "my_apache",
+			"source_dir"	: "puppet/modules",
+			"module"	: "my_apche",
+			"fname"		: "init.pp",
+			"type"		: "modules",
+			"destination"	: "/etc/puppet"
+		}
+	],
+
+	"container": [	
+		{
+			"Description"	: "Docker contianer information for building the apache web server to be  deploy",
+			"type"		: "Docker",
+			"destination"	: "/var/src/docker",
+			"source_dir"	: "docker/",
+			"module"	: "apache2",
+			"home_dir"	: "apache2"
+		}
+	]
+}

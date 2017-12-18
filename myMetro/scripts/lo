@@ -1,0 +1,1 @@
+kill `who -u | nawk '{print $6}'`

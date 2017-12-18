@@ -1,0 +1,53 @@
+#!/bin/bash
+#Script to clean the MetroLab Puppet Master files
+#
+# Flies that need to be removed are
+# /etc/puppet/manifest/site.pp
+# /etc/puppet/modules/my_apache
+# /etc/puppet/modules/my_docker
+# /opt/MetroLab_Docker
+##
+#
+Puppet_Dir="/etc/puppet"
+MOD_Dir="modules"
+MAN_Dir="manifests"
+Src_Dir="/var/src/docker"
+Bak_Dir=/var/tmp/MetroLab_Docker/bak
+DATE=`date +"%b%d%Y-%H%M"`
+
+
+if ( ! test  -d "$Bak_Dir" ); then
+	echo "mkdir -p $Bak_Dir"
+	mkdir -p $Bak_Dir
+else
+	echo " Backing up --- mv $Bak_Dir $Bak_Dir-$DATE"
+	mv $Bak_Dir $Bak_Dir-$DATE
+	echo "mkdir -p $Bak_Dir"
+	mkdir -p $Bak_Dir
+fi
+
+if  [ ! -d "$Bak_Dir/$MAN_Dir" ]; then
+	echo "mkdir -p $Bak_Dir/$MAN_Dir"
+	mkdir -p $Bak_Dir/$MAN_Dir
+fi
+echo "mv $Puppet_Dir/$MAN_Dir/* $Bak_Dir/$MAN_Dir"
+mv $Puppet_Dir/$MAN_Dir/* $Bak_Dir/$MAN_Dir
+
+
+if  [ ! -d "$Bak_Dir/$MOD_Dir" ]; then
+	echo "mkdir -p $Bak_Dir/$MOD_Dir"
+	mkdir -p $Bak_Dir/$MOD_Dir
+fi
+echo "mv $Puppet_Dir/$MOD_Dir/* $Bak_Dir/$MOD_Dir"
+mv $Puppet_Dir/$MOD_Dir/* $Bak_Dir/$MOD_Dir
+
+if  [ ! -d "$Bak_Dir/$Src_Dir" ]; then
+	echo "mkdir -p $Bak_Dir/`basename $Src_Dir`"
+	mkdir -p $Bak_Dir/`basename $Src_Dir`
+fi
+echo "mv $Src_Dir/* $Bak_Dir/`basename $Src_Dir`"
+mv $Src_Dir/* $Bak_Dir/`basename $Src_Dir`
+
+
+
+echo "##### Finishing cleaning for next deployment ######"
